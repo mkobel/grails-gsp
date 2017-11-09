@@ -1063,6 +1063,10 @@ class FormTagLib implements ApplicationContextAware, InitializingBean, TagLibrar
             if (!selected && el != null) {
                 selected = value.contains(el)
             }
+            // compare ident if a domainclass comparison is expected
+            if (!selected && grailsApplication.getArtefact(DomainClassArtefactHandler.TYPE, el.getClass().name) && keyValue == el.ident() ) {
+                selected = value*.ident().contains(keyValue)
+            }
         }
         // GRAILS-3596: Make use of Groovy truth to handle GString <-> String
         // and other equivalent types (such as numbers, Integer <-> Long etc.).
